@@ -1,0 +1,69 @@
+{
+  "name": "bls",
+  "productName": "BLS",
+  "version": "1.0.0",
+  "description": "BLS - Lightweight Local Web Server Desktop App",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "build:linux": "electron-builder --linux AppImage",
+    "build:win": "electron-builder --win nsis portable",
+    "build:all": "electron-builder --linux AppImage --win nsis portable",
+    "build": "electron-builder --linux AppImage --win nsis portable",
+    "test": "node -e \"console.log('BLS ready')\""
+  },
+  "build": {
+    "appId": "com.bls.localwebserver",
+    "productName": "BLS",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "test-sample/**/*",
+      "package.json"
+    ],
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "src/renderer/assets/icon.png",
+      "category": "Development",
+      "synopsis": "Lightweight Local Web Server"
+    },
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": "src/renderer/assets/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "keywords": [
+    "local-server",
+    "web-server",
+    "http",
+    "https",
+    "developer-tools",
+    "electron"
+  ],
+  "author": "BLS Team",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mime-types": "^3.0.2",
+    "selfsigned": "^5.5.0"
+  },
+  "devDependencies": {
+    "electron": "^44.2.0",
+    "electron-builder": "^26.7.0"
+  }
+}

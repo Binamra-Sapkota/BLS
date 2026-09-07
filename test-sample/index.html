@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLS Server // Demo Site</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="cyber-container">
+    <div class="glow-orb"></div>
+    <header>
+      <div class="tag">&lt;SYSTEM_ONLINE /&gt;</div>
+      <h1>BLS SERVER DEMO</h1>
+      <p class="subtitle">Your local web dev server is running flawlessly.</p>
+    </header>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>High Performance</h3>
+        <p>Serving local static assets directly with zero latency and ultra-fast response times.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>SSL / HTTPS Ready</h3>
+        <p>Dynamic self-signed SSL certificate on the fly for secure protocol development.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h3>CORS Enabled</h3>
+        <p>Test fetch requests, REST APIs, WebSockets, and WebGL assets across origins.</p>
+      </div>
+    </div>
+
+    <div class="interactive-box">
+      <h3>Live Interactive Tester</h3>
+      <div class="btn-row">
+        <button id="testFetchBtn" class="btn">Test API Request</button>
+        <button id="counterBtn" class="btn btn-outline">Clicks: <span id="count">0</span></button>
+      </div>
+      <div id="fetchResult" class="result-box">[ Click button to test local request log ]</div>
+    </div>
+
+    <footer>
+      <p>Powered by <strong>BLS</strong> &bull; Simple, Dark & Green Hacker Web Server</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

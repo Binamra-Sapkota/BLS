@@ -1,0 +1,13 @@
+{
+  "server": "BLS",
+  "status": "online",
+  "features": [
+    "Single-click start/stop",
+    "Self-signed HTTPS",
+    "CORS headers",
+    "Localhost or LAN binding",
+    "Cyber hacker directory listing",
+    "Live request terminal logger"
+  ],
+  "message": "Local web dev has never been easier!"
+}

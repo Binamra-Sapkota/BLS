@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLS // Local Web Server</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-window">
+    <!-- Top Header Bar -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-logo-wrap">
+          <img src="assets/logo.svg" alt="BLS Logo" class="brand-logo">
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-row">
+            <span class="brand-name">BLS</span>
+            <span class="version-tag">v1.0</span>
+          </div>
+          <span class="brand-sub">LOCAL WEB SERVER</span>
+        </div>
+      </div>
+
+      <div class="header-status">
+        <div id="statusBadge" class="status-badge stopped">
+          <span class="status-dot"></span>
+          <span id="statusText" class="status-label">OFFLINE</span>
+        </div>
+        <div id="serverStatsBadge" class="server-stats-badge hidden">
+          <span class="stat-item"><span class="stat-icon">⚡</span> <span id="statRequests">0 reqs</span></span>
+          <span class="stat-sep">&bull;</span>
+          <span class="stat-item"><span class="stat-icon">⏱️</span> <span id="statUptime">00:00</span></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="app-body">
+      <!-- Top Section: Folder Selector & Main Action -->
+      <section class="panel folder-section">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="panel-icon">📁</span>
+            <span>TARGET DIRECTORY</span>
+          </div>
+          <div class="panel-actions">
+            <button id="loadSampleBtn" class="btn-ghost-sm" title="Load demo folder to quickly test">
+              <span>🚀 Use Demo Folder</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="dropZone" class="folder-dropzone">
+          <div class="folder-info">
+            <div class="folder-icon-large">📂</div>
+            <div class="folder-details">
+              <div class="folder-path-label">Active Serving Root:</div>
+              <div id="currentFolderPath" class="folder-path-text" title="No folder selected">No folder selected (Click Browse or Drag & Drop)</div>
+            </div>
+          </div>
+          <div class="folder-buttons">
+            <button id="browseFolderBtn" class="btn btn-secondary">
+              <span class="btn-icon">🔍</span>
+              <span>Browse Folder</span>
+            </button>
+            <button id="openFolderBtn" class="btn-icon-only" title="Open directory in system file manager" disabled>
+              <span>📂</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Folders Bar -->
+        <div id="recentFoldersWrap" class="recent-folders-wrap hidden">
+          <span class="recent-label">Recents:</span>
+          <div id="recentChips" class="recent-chips"></div>
+          <button id="clearRecentsBtn" class="btn-clear-recents" title="Clear recents">✕</button>
+        </div>
+      </section>
+
+      <!-- Active Server Banner (Shown when server is running) -->
+      <section id="serverActiveBanner" class="panel server-banner hidden">
+        <div class="banner-top">
+          <div class="banner-live-info">
+            <div class="pulse-ring"></div>
+            <div>
+              <div class="banner-title">SERVER RUNNING LIVE</div>
+              <div class="banner-subtitle" id="bannerRootDesc">Serving local static files</div>
+            </div>
+          </div>
+          <div class="banner-actions">
+            <button id="openBrowserBtn" class="btn btn-neon">
+              <span class="btn-icon">🌐</span>
+              <span>Open in Browser</span>
+            </button>
+            <button id="copyUrlBtn" class="btn btn-outline-neon">
+              <span id="copyIcon">📋</span>
+              <span id="copyText">Copy URL</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- URL List -->
+        <div class="urls-container">
+          <div class="url-row primary">
+            <span class="url-badge">LOCAL</span>
+            <a href="#" id="primaryUrlLink" class="url-link" target="_blank">http://localhost:8080</a>
+            <button id="copyPrimaryUrlBtn" class="btn-tiny-copy" title="Copy localhost URL">Copy</button>
+          </div>
+
+          <div id="networkUrlsContainer" class="network-urls-container hidden">
+            <!-- Dynamic LAN URLs injected here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Server Controls & Settings Grid -->
+      <section class="controls-grid">
+        <!-- Start/Stop Big Control Panel -->
+        <div class="panel main-control-panel">
+          <div class="main-btn-wrapper">
+            <button id="toggleServerBtn" class="btn-power start">
+              <div class="power-glow"></div>
+              <div class="power-inner">
+                <span class="power-icon">⚡</span>
+                <span id="toggleBtnText" class="power-text">START SERVER</span>
+              </div>
+            </button>
+          </div>
+          <div class="control-footer">
+            <span class="shortcut-hint">Shortcuts: <kbd>Space</kbd> or <kbd>Ctrl+Enter</kbd> to toggle</span>
+          </div>
+        </div>
+
+        <!-- Settings Options Panel -->
+        <div class="panel settings-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span class="panel-icon">⚙️</span>
+              <span>SERVER SETTINGS</span>
+            </div>
+            <div id="settingsDirty" class="settings-saved-indicator">Saved</div>
+          </div>
+
+          <div class="settings-content">
+            <!-- Port Setting -->
+            <div class="setting-item port-item">
+              <div class="setting-info">
+                <label for="portInput" class="setting-label">Port Number</label>
+                <span class="setting-desc">Port on which the web server listens</span>
+              </div>
+              <div class="port-input-group">
+                <input type="number" id="portInput" class="port-input" value="8080" min="1" max="65535">
+                <div class="port-presets">
+                  <button type="button" class="port-chip" data-port="8080">8080</button>
+                  <button type="button" class="port-chip" data-port="3000">3000</button>
+                  <button type="button" class="port-chip" data-port="5000">5000</button>
+                  <button type="button" class="port-chip" data-port="8000">8000</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Toggles Grid -->
+            <div class="toggles-grid">
+              <!-- HTTPS Toggle -->
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <div class="toggle-title-row">
+                    <span class="toggle-icon">🔒</span>
+                    <span class="toggle-label">HTTPS (SSL)</span>
+                  </div>
+                  <span class="toggle-desc">Dynamic self-signed certificate</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="httpsToggle">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- Localhost Only Toggle -->
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <div class="toggle-title-row">
+                    <span class="toggle-icon">🏠</span>
+                    <span class="toggle-label">Localhost Only</span>
+                  </div>
+                  <span class="toggle-desc">Bind 127.0.0.1 (Disable for LAN)</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="localhostToggle" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- Directory Listings Toggle -->
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <div class="toggle-title-row">
+                    <span class="toggle-icon">📂</span>
+                    <span class="toggle-label">Directory Listing</span>
+                  </div>
+                  <span class="toggle-desc">Show file list if no index.html</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="directoryListingToggle" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- CORS Headers Toggle -->
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <div class="toggle-title-row">
+                    <span class="toggle-icon">🌐</span>
+                    <span class="toggle-label">CORS Headers</span>
+                  </div>
+                  <span class="toggle-desc">Allow cross-origin requests (*)</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="corsToggle" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- SPA Fallback Toggle -->
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <div class="toggle-title-row">
+                    <span class="toggle-icon">🔄</span>
+                    <span class="toggle-label">SPA Mode</span>
+                  </div>
+                  <span class="toggle-desc">Fallback 404s to /index.html</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="spaToggle">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- Disable Cache Toggle -->
+              <div class="toggle-item">
+                <div class="toggle-info">
+                  <div class="toggle-title-row">
+                    <span class="toggle-icon">🚫</span>
+                    <span class="toggle-label">Disable Cache</span>
+                  </div>
+                  <span class="toggle-desc">Send no-cache dev headers</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="noCacheToggle" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live Hacker Terminal / Request Console -->
+      <section class="panel terminal-section">
+        <div class="terminal-header">
+          <div class="terminal-title">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-label">BLS // LIVE REQUEST STREAM</span>
+            <span id="logCountBadge" class="terminal-count">0 logs</span>
+          </div>
+          <div class="terminal-controls">
+            <div class="terminal-search-wrap">
+              <input type="text" id="logFilterInput" class="terminal-search" placeholder="Filter requests..." spellcheck="false">
+            </div>
+            <button id="toggleAutoscrollBtn" class="btn-term-ctrl active" title="Toggle Auto Scroll">
+              <span>⬇️ Auto-scroll</span>
+            </button>
+            <button id="clearLogsBtn" class="btn-term-ctrl" title="Clear request logs">
+              <span>🗑️ Clear</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="terminalLogBody" class="terminal-body">
+          <div class="terminal-welcome">
+            <div class="ascii-art">
+  ____  _     ____  
+ | __ )| |   / ___| 
+ |  _ \| |   \___ \ 
+ | |_) | |___ ___) |
+ |____/|_____|____/ 
+            </div>
+            <p class="welcome-text">[BLS Console initialized. Ready to serve requests.]</p>
+            <p class="welcome-sub">Select a folder and click START SERVER to begin streaming HTTP traffic.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Status / Notification Toast -->
+    <div id="toast" class="toast hidden">
+      <span id="toastIcon" class="toast-icon">ℹ️</span>
+      <span id="toastMessage" class="toast-message">Message</span>
+    </div>
+  </div>
+
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
