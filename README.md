@@ -14,9 +14,9 @@ Download the latest packaged release from the [GitHub Releases page](https://git
 
 | Platform | Executable File | Description |
 | :--- | :--- | :--- |
-| 🐧 **Linux** | [Download BLS AppImage](https://github.com/Binamra-Sapkota/BLS/releases/download/v1.0.0/BLS-1.0.0.AppImage) | Standalone 1-click Linux executable. No install required. |
-| 🪟 **Windows** | [Download BLS Setup](https://github.com/Binamra-Sapkota/BLS/releases/download/v1.0.0/BLS%20Setup%201.0.0.exe) | Windows installer executable. |
-| 🪟 **Windows (ZIP)** | [Download Windows ZIP](https://github.com/Binamra-Sapkota/BLS/releases/download/v1.0.0/BLS-1.0.0-Windows-x64.zip) | Portable Windows ZIP archive containing `BLS.exe`. |
+| 🐧 **Linux** | [Download BLS AppImage](https://github.com/Binamra-Sapkota/BLS/releases/download/v1.0.1/BLS-1.0.0.AppImage) | Standalone 1-click Linux executable. No install required. |
+| 🪟 **Windows** | [Download BLS Setup](https://github.com/Binamra-Sapkota/BLS/releases/download/v1.0.1/BLS.Setup.1.0.0.exe) | Windows installer executable. |
+| 🪟 **Windows (ZIP)** | [Download Windows ZIP](https://github.com/Binamra-Sapkota/BLS/releases/download/v1.0.1/BLS-1.0.0-Windows-x64.zip) | Portable Windows ZIP archive containing `BLS.exe`. |
 
 ### Running on Linux:
 ```bash
