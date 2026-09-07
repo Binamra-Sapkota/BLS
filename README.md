@@ -8,25 +8,25 @@
 
 ---
 
-## 📦 Standalone Executables Ready to Use
+## 📦 Download BLS
 
-Both **Linux AppImage** and **Windows .exe** binaries are compiled in the [`dist/`](dist/) folder:
+Download the latest packaged release from the [GitHub Releases page](https://github.com/Binamra-Sapkota/BLS/releases/latest):
 
 | Platform | Executable File | Description |
 | :--- | :--- | :--- |
-| 🐧 **Linux** | [`dist/BLS-1.0.0.AppImage`](dist/BLS-1.0.0.AppImage) | Standalone 1-click Linux executable. No install required. |
-| 🪟 **Windows** | [`dist/win-unpacked/BLS.exe`](dist/win-unpacked/BLS.exe) | Standalone Windows `.exe` application. |
-| 🪟 **Windows (ZIP)** | [`dist/BLS-1.0.0-Windows-x64.zip`](dist/BLS-1.0.0-Windows-x64.zip) | Portable Windows ZIP archive containing `BLS.exe`. |
+| 🐧 **Linux** | [Download BLS AppImage](https://github.com/Binamra-Sapkota/BLS/releases/download/v1.0.0/BLS-1.0.0.AppImage) | Standalone 1-click Linux executable. No install required. |
+| 🪟 **Windows** | [Download BLS Setup](https://github.com/Binamra-Sapkota/BLS/releases/download/v1.0.0/BLS%20Setup%201.0.0.exe) | Windows installer executable. |
+| 🪟 **Windows (ZIP)** | [Download Windows ZIP](https://github.com/Binamra-Sapkota/BLS/releases/download/v1.0.0/BLS-1.0.0-Windows-x64.zip) | Portable Windows ZIP archive containing `BLS.exe`. |
 
 ### Running on Linux:
 ```bash
-# Make executable and launch:
-chmod +x dist/BLS-1.0.0.AppImage
-./dist/BLS-1.0.0.AppImage
+# Make executable and launch the downloaded file:
+chmod +x BLS-1.0.0.AppImage
+./BLS-1.0.0.AppImage
 ```
 
 ### Running on Windows:
-- Simply extract `BLS-1.0.0-Windows-x64.zip` and double-click `BLS.exe`.
+- Run `BLS Setup 1.0.0.exe`, or extract `BLS-1.0.0-Windows-x64.zip` and double-click `BLS.exe`.
 
 ---
 
@@ -82,12 +82,6 @@ npm start
 BLS/
 ├── package.json
 ├── run.sh
-├── bls.desktop
-├── dist/
-│   ├── BLS-1.0.0.AppImage            # Standalone Linux executable
-│   ├── BLS-1.0.0-Windows-x64.zip     # Portable Windows ZIP package
-│   └── win-unpacked/
-│       └── BLS.exe                   # Windows executable
 ├── src/
 │   ├── main/
 │   │   ├── main.js                   # Electron main process & IPC handlers
